@@ -1,0 +1,40 @@
+Отчет выполнил Зибряк Дмитрий, ИУ8-24
+
+Для скачивания библиотеки boost воспользуемся утилитой wget, предварительно установив ее: 
+brew install wget
+wget https://sourceforge.net/projects/boost/files/boost/1.69.0/boost_1_69_0.tar.gz
+Для разархивации используем команду tar:
+	tar -xf boost_1_69_0.tar.gz
+Для подсчета файлов используем команду find:
+find . -maxdepth 1 -type f | wc -l
+Где maxdepth 1 - максимальная глубина поиска - в текущем каталоге
+type f - вывод только файлов
+| wc -l - подсчет строк результата вывода команды find
+Аналогично с предыдущим пунктом, используем команду find без ограничения глубины:
+find . -type f | wc -l
+Воспользуемся сочетанием команд find и wc для подсчета заголовочных файлов, файлов с расширением .cpp, остальных файлов:
+find . -type f -name '*.cpp' | wc -l	
+подсчет файлов с расширением .cpp
+find . -type f -name '*.h' | wc -l
+find . -type f -name '*.hpp' | wc -l
+подсчет заголовочных файлов
+find . -type f -not -name '*.cpp' | wc -l
+find . -type f -not -name '*.h' | wc -l
+find . -type f -not -name '*.hpp' | wc -l
+подсчет остальных файлов, not для инвертирования условия
+Чтобы найти полный путь до файла any.hpp внутри библиотеки boost, воспользуемся командой find:
+find . /Users/dimon/boost_1_69_0/boost -type f -name 'any.hpp'
+Чтобы найти файлы, в которых упоминается ‘boost::asio’, используем команду grep - поиск по содержимому файла:
+grep -rl 'boost::asio' .
+
+Чтобы скомпилировать библиотеку bootstrap.sh на MacOS, необходимо внести поправки в файл (комментированием) boost/tools/build/src/tools/darwin.jam через утилиту-редактор vim (https://github.com/arvidn/libtorrent/issues/4662) 
+Затем компилируем библиотеку:
+./bootstrap.sh    ./b2 install 
+Чтобы перенести скомпилированные файлы из библиотеки stage/lib в каталог ~/boost-libs, воспользуемся командой mv (move):
+mv ./stage/lib/ ~/boost-libs, cd ~/boost-libs
+Подсчитать количество занимаемого пространства можно командами:
+du -ah или ls -shl
+Чтобы вывести 10 самых тяжелых файлов:
+du -ah . | sort -rh | head -10
+Где head - ограничение по выводимым в терминал строкам
+sort -rh - реверсивная сортировка по числовому значению (размеру)
